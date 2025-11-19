@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup/Login</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h2 {
+      color: #f1f1f1;
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      background-color: #1f1f1f;
+      padding: 50px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      width: 300px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid #333333;
+      border-radius: 4px;
+      background-color: #333333;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      border-color: #666666;
+      outline: none;
+    }
+
+    button {
+      width: 50%;
+      padding: 5px;
+      background-color: #333333;
+      color: #fff;
+      font-size: 1.1rem;
+      border: 2px solid #333333;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #FFD700; /* Yellow background on hover */
+      border-color: #FFD700; /* Yellow border on hover */
+      color: #121212;
+    }
+
+    .toggle-btns {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .toggle-btns button {
+      width: 45%;
+      margin: 0 5px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 500px) {
+      form {
+        width: 80%;
+      }
+
+      .toggle-btns button {
+        width: 45%;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <!-- Signup Form -->
+    <div id="signup-form" class="form-container">
+      <h2>Signup</h2>
+      <form>
+        <input type="text" id="signup-username" placeholder="Username" required><br>
+        <input type="email" id="signup-email" placeholder="Email" required><br>
+        <input type="password" id="signup-password" placeholder="Password" required><br>
+        <button type="submit">Signup</button>
+      </form>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" class="form-container" style="display:none;">
+      <h2>Login</h2>
+      <form>
+        <input type="email" id="login-email" placeholder="Email" required><br>
+        <input type="password" id="login-password" placeholder="Password" required><br>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <!-- Toggle Buttons for Signup and Login -->
+    <div class="toggle-btns">
+      <button id="show-signup" onclick="toggleForm('signup')">Go to Signup</button>
+      <button id="show-login" onclick="toggleForm('login')">Go to Login</button>
+    </div>
+  </div>
+
+  <script>
+    // Toggle between Signup and Login forms
+    function toggleForm(formType) {
+      if (formType === 'signup') {
+        document.getElementById('signup-form').style.display = 'block';
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('show-signup').style.display = 'none';
+        document.getElementById('show-login').style.display = 'block';
+      } else {
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('show-signup').style.display = 'block';
+        document.getElementById('show-login').style.display = 'none';
+      }
+    }
+  
+    // Show alert popup
+    function showPopup(message) {
+      alert(message);
+    }
+  
+    // Handle Signup
+    document.querySelector('#signup-form form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('signup-username').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+  
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+  
+      const data = await response.json();
+      if (data.token) {
+        showPopup("Signup successful! Please login.");
+        toggleForm('login');
+      } else {
+        showPopup("Signup failed: " + (data.message || "Please try again."));
+      }
+    });
+  
+    // Handle Login
+    document.querySelector('#login-form form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+  
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+      if (data.token) {
+        showPopup("Login successful!");
+        window.location.href = "NEWWWHOMEEE.html"; // Navigate to new.html after login
+      } else {
+        showPopup("Login failed: " + (data.message || "Invalid credentials."));
+      }
+    });
+  
+    // Show signup form by default
+    window.onload = function() {
+      toggleForm('signup');
+    };
+  </script>
+  
+
+</body>
+</html>

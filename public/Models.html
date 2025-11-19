@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maserati GranTurismo Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #000;
+      color: white;
+      overflow: hidden;
+      height: 100%;
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 30%;
+      background-color: #111;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .logo {
+      width: 40px;
+      margin-bottom: 20px;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar li {
+      margin: 15px 0;
+      font-size: 36px;
+      color: #aaa;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: normal;
+    }
+    .sidebar li:hover {
+      color: #fff;
+      transform: scale(1.05);
+      font-weight: bold;
+    }
+    .image-section {
+      flex: 1;
+      position: relative;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 160px 40px 60px;
+      background: black;
+      cursor: none;
+    }
+    .img-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .img-container img {
+      width: 100%;
+      height: calc(100% - 60px);
+      object-fit: cover;
+      margin-top: 60px;
+    }
+    .specs-top {
+      position: absolute;
+      top: 100px;
+      left: 40px;
+      display: flex;
+      gap: 80px;
+      font-size: 18px;
+      font-family: 'Roboto', sans-serif;
+      z-index: 2;
+    }
+    .specs-top div {
+      text-align: center;
+      color: white;
+    }
+    .specs-top .value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .tagline {
+      font-size: 40px;
+      font-family: 'Playfair Display', serif;
+      max-width: 400px;
+      margin-top: 20px;
+    }
+    .btn-yellow {
+      position: relative;
+      background: transparent;
+      color: black;
+      padding: 16px 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      margin: 20px 0;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn-yellow::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 100%;
+      background: #f3c219;
+      z-index: -1;
+      transition: width 0.4s ease;
+    }
+    .btn-yellow:hover::before {
+      width: 100%;
+    }
+    .btn-yellow:hover {
+      color: #000;
+    }
+    .custom-cursor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: black;
+      pointer-events: none;
+      z-index: 10;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <img class="logo" src="LOGO.jpg" alt="Maserati Logo">
+      <ul>
+        <li id="grecale" onclick="window.location.href='CARSgrecale.html'">Grecale</li><br>
+        <li id="ghibli" onclick="window.location.href='CARSghibli.html'">Ghibli</li><br>
+        <li>Levante</li><br>
+        <li>GranTurismo</li><br>
+        <li>GranCabrio</li><br>
+        <li>MC20</li><br>
+        <li>MC20 Cielo</li><br>
+      </ul>
+    </div>
+    <div class="image-section" id="imageSection">
+      <div class="img-container">
+        <div class="specs-top">
+          <div>
+            <div>Top Speed</div>
+            <div class="value" id="speed-value">0 <small>km/h</small></div>
+          </div>
+          <div>
+            <div>Acceleration</div>
+            <div class="value" id="accel-value">0.0 <small>sec</small></div>
+          </div>
+        </div>
+        <img id="car-image" src="" alt="Car Image" />
+      </div>
+      <div class="tagline">You're Not Like Everyone Else</div>
+      <button class="btn-yellow">Build Your Own</button>
+    </div>
+    <div class="custom-cursor" id="customCursor">DISCOVER MORE</div>
+  </div>
+  <script>
+    function animateValue(id, start, end, duration, decimals = 0) {
+      const obj = document.getElementById(id);
+      const range = end - start;
+      const stepTime = Math.max(Math.floor(duration / range * 10), 10);
+      let current = start;
+      const increment = (end - start) / (duration / stepTime);
+      const timer = setInterval(() => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+          current = end;
+          clearInterval(timer);
+        }
+        obj.innerHTML = `${current.toFixed(decimals)} <small>${id === 'speed-value' ? 'km/h' : 'sec'}</small>`;
+      }, stepTime);
+    }
+
+    const imageSection = document.getElementById("imageSection");
+    const carImage = document.getElementById("car-image");
+    const cursor = document.getElementById("customCursor");
+
+    function showSpecs(imageUrl, speed, accel) {
+      imageSection.style.display = "flex";
+      carImage.src = imageUrl;
+      animateValue("speed-value", 0, speed, 3000);
+      animateValue("accel-value", 0, accel, 3000, 1);
+    }
+
+    document.getElementById("grecale").addEventListener("mouseenter", function () {
+      showSpecs("https://maserati.scene7.com/is/image/maserati/maserati/international/nav-menu/my24/grecale_folgore_nav_menu.jpg.jpg?$1920x2000$&fit=constrain", 325, 2.7);
+    });
+
+    document.getElementById("ghibli").addEventListener("mouseenter", function () {
+      showSpecs("https://maserati.scene7.com/is/image/maserati/maserati/international/nav-menu/menu_nav_bar_gh_trofeo.jpg?$1920x2000$&fit=constrain", 326, 4.3);
+    });
+
+    document.getElementById("imageSection").addEventListener("mousemove", function(e) {
+      cursor.style.display = "flex";
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    document.getElementById("imageSection").addEventListener("mouseleave", function() {
+      cursor.style.display = "none";
+    });
+  </script>
+</body>
+</html>

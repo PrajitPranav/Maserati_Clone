@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maserati HOME</title>
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Helvetica', sans-serif;
+      cursor: none;
+    }
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .carousel {
+      display: flex;
+      height: 100%;
+      transition: transform 0.6s ease;
+    }
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .slide.bg-image {
+      background: url('https://maserati.scene7.com/is/image/maserati/maserati/international/Models/my25/gt2-stradale/corse-takeover-gt2-stradale-desktop.png?$1920x2000$&fmt=png-alpha&fit=constrain') no-repeat center center/cover;
+    }
+    .slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .navbar {
+      display: flex;
+      justify-content: flex-start;
+      gap: 2rem;
+      padding: 20px 40px;
+      font-size: 14px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      font-weight: 500;
+      color: white;
+    }
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      height: 80px;
+    }
+    
+
+    .build-button {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  background-color: #ffc72c;
+  color: black;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+  z-index: 3;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+  transition: color 0.4s ease-in-out;
+}
+
+.build-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: blue;
+  z-index: -1;
+  transition: width 0.6s ease;
+}
+
+.build-button:hover::before {
+  width: 100%;
+}
+
+.build-button:hover {
+  color: white;
+}
+
+    
+
+
+
+
+
+.carousel-container {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .car-video-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .car-video {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: all 2s ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 0;
+    }
+
+    .car-video video {
+      width: 64%;
+      max-width: 800px;
+      border-radius: 10px;
+      pointer-events: none;
+    }
+
+    .car-video.active {
+      left: 0;
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .car-video.exit-left {
+      left: -100%;
+      opacity: 0;
+    }
+
+    .car-video.exit-right {
+      left: 100%;
+      opacity: 0;
+    }
+
+    .car-video.enter-left {
+      left: -100%;
+    }
+
+    .car-video.enter-right {
+      left: 100%;
+    }
+
+    .discover-btn {
+      position: absolute;
+      bottom: 40px;
+      background: #f3c219;
+      padding: 12px 30px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      
+      z-index: 5;
+    }
+
+    .discover-btn:hover {
+      background: #e6b800;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .arrow.left { left: 10px; }
+    .arrow.right { right: 10px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .discover-cursor {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      background: white;
+      color: black;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 10px;
+      font-weight: bold;
+      z-index: 9999;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+    .slide-controls {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 3;
+    }
+    .slide-controls button {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      background-color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .caption {
+      position: absolute;
+      bottom: 70px;
+      left: 40px;
+      z-index: 3;
+      color: white;
+    }
+    .caption h5 {
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .caption h1 {
+      font-size: 48px;
+      font-weight: 400;
+    }
+
+
+
+
+
+    .caption-c{
+      position: absolute;
+      bottom: 70px;
+      left: 40px;
+      z-index: 3;
+      color:black;
+    }
+    .caption-c h5 {
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .caption-c h1 {
+      font-size: 48px;
+      font-weight: 400;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .progress {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 3;
+      font-size: 12px;
+      color: white;
+    }
+    .dots {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0.4;
+      transition: all 0.3s ease;
+    }
+    .dot.active {
+      background: #ffc72c;
+      opacity: 1;
+      width: 20px;
+      height: 6px;
+      border-radius: 10px;
+    }
+
+
+
+
+    .car-video .caption {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  color: white;
+  z-index: 3;
+}
+
+.car-video .caption h5 {
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.car-video .caption h1 {
+  font-size: 48px;
+  font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+
+
+  </style>
+</head>
+<body>
+  <div class="hero" id="hero">
+    <div class="navbar">
+      <span onclick="window.location.href='Models.html'">Models</span>
+      <span>Brand</span>
+      <span>Quick Find</span>
+    </div>
+    <img src="https://1000logos.net/wp-content/uploads/2018/04/Maserati-Logo.png" alt="Maserati Logo" class="logo" />
+    <a href="#" class="build-button" onclick="window.location.href='BuildYourOwnPage.html'">Build Your Own</a>
+
+
+    <div class="carousel" id="carousel">
+        <div class="slide bg-image">
+          <div class="caption">
+            <h5>RACING IS LIFE</h5>
+            <h1>GT2 Stradale</h1>
+          </div>
+        </div>
+      
+        <div class="slide">
+          <video class="slide-video" src="https://maserati.scene7.com/is/content/maserati/maserati/worldwide/brand/soa/gt110-anniversary/gt-110-anniversary-hero-video-desktop.mp4" muted loop></video>
+          <div class="caption">
+            <h5>110 YEARS</h5>
+            <h1>GT Anniversary</h1>
+          </div>
+        </div>
+      
+        <div class="slide">
+          <video class="slide-video" src="https://maserati.scene7.com/is/content/maserati/maserati/international/Brand/Partners/giorgetti/partners-giorgetti-video-desktop.mp4" muted loop></video>
+          <div class="caption">
+            <h5>Grecale</h5>
+            <h1>Giorgetti Edition</h1>
+          </div>
+        </div>
+      </div>
+      
+
+    <div class="slide-controls">
+      <button onclick="prevSlide()">&#x276E;</button>
+      <button onclick="nextSlide()">&#x276F;</button>
+    </div>
+
+
+<div class="progress">
+    <span id="slide-num">1/3</span>
+    <div class="dots" id="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  
+
+    <div class="discover-cursor" id="customCursor">DISCOVER<br />MORE</div>
+  </div>
+
+
+
+  <section class="carousel-container">
+    <button class="arrow left" onclick="prevCar()">&#8592;</button>
+    <button class="arrow right" onclick="nextCar()">&#8594;</button>
+
+    <div class="car-video-wrapper" id="carWrapper">
+      <div class="car-video active">
+        <video src="https://maserati.scene7.com/is/content/maserati/maserati/international/model-page/animation/forward/update-2023/GR_backward-vp9-chrome.webm" muted></video>
+        <div class="caption-c">
+            <h5>MASERATI</h5>
+            <h1>EXTRAORDINARY MODEL</h1>
+          </div>
+    
+        </div>
+
+      <div class="car-video">
+        <video src="https://maserati.scene7.com/is/content/maserati/maserati/international/model-page/animation/forward/Folgore.webm" muted></video>
+        <div class="caption-c">
+            <h5>MASERATI</h5>
+            <h1>EXTRAORDINARY MODEL</h1>
+          </div>  
+    </div>
+
+      <div class="car-video">
+        <video src="https://maserati.scene7.com/is/content/maserati/maserati/international/model-page/animation/forward/test/MC20-vp9-chrome.webm" muted></video>
+        <div class="caption-c">
+            <h5>MASERATI</h5>
+            <h1>EXTRAORDINARY MODEL</h1>
+          </div>  
+    </div>
+
+      <div class="car-video">
+        <video src="https://maserati.scene7.com/is/content/maserati/maserati/international/model-page/animation/forward/gt2-stradale-forward-vp9-chrome.webm" muted></video>
+        <div class="caption-c">
+            <h5>MASERATI</h5>
+            <h1>EXTRAORDINARY MODEL</h1>
+          </div>  
+    </div>
+    </div>
+<br>
+    <button class="discover-btn">DISCOVER</button>
+  </section>
+
+
+
+
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 3;
+    const carousel = document.getElementById('carousel');
+    const slideNum = document.getElementById('slide-num');
+    const dots = document.querySelectorAll('.dot');
+    const videos = document.querySelectorAll('.slide-video');
+
+    const cursor = document.getElementById('customCursor');
+    const hero = document.getElementById('hero');
+
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+      slideNum.textContent = `${currentSlide + 1}/${totalSlides}`;
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+
+      videos.forEach((vid, index) => {
+  if (index === currentSlide - 1) {
+    vid.play();
+  } else {
+    vid.pause();
+    vid.currentTime = 0;
+  }
+});
+
+
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+
+    const carouselContainer = document.querySelector('.carousel-container');
+
+// Show custom cursor when inside hero or carousel
+function showCustomCursor() {
+  cursor.style.display = 'flex';
+  document.body.style.cursor = 'none';
+}
+
+// Hide custom cursor when outside hero and carousel
+function hideCustomCursor() {
+  cursor.style.display = 'none';
+  document.body.style.cursor = 'default';
+}
+
+hero.addEventListener('mouseenter', showCustomCursor);
+hero.addEventListener('mouseleave', hideCustomCursor);
+
+carouselContainer.addEventListener('mouseenter', showCustomCursor);
+carouselContainer.addEventListener('mouseleave', hideCustomCursor);
+
+    const buildButton = document.querySelector('.build-button');
+
+buildButton.addEventListener('mouseenter', () => {
+  cursor.style.display = 'none';
+  document.body.style.cursor = 'default';
+});
+
+buildButton.addEventListener('mouseleave', () => {
+  cursor.style.display = 'flex';
+  document.body.style.cursor = 'none';
+});
+
+const navbar = document.querySelector('.navbar');
+
+// Hide custom cursor and show default when hovering over navbar
+navbar.addEventListener('mouseenter', () => {
+  cursor.style.display = 'none';
+  document.body.style.cursor = 'default';
+});
+
+navbar.addEventListener('mouseleave', () => {
+  cursor.style.display = 'flex';
+  document.body.style.cursor = 'none';
+});
+
+
+const carVideos = document.querySelectorAll('.car-video');
+    const videoEls = document.querySelectorAll('.car-video video');
+    let index = 0;
+    let isAnimating = false;
+
+    function switchSlide(newIndex, direction) {
+  if (isAnimating || newIndex === index) return;
+  isAnimating = true;
+
+  const current = carVideos[index];
+  const next = carVideos[newIndex];
+
+  videoEls.forEach(video => {
+    video.pause();
+    video.currentTime = 0;
+  });
+
+  const currentVideo = current.querySelector('video');
+  const nextVideo = next.querySelector('video');
+
+  // Play the exiting video (for reverse motion effect)
+  currentVideo.play();
+
+  // Add exit transition
+  current.classList.add(direction === 'right' ? 'exit-left' : 'exit-right');
+
+  // Prepare and activate next slide
+  next.classList.remove('exit-left', 'exit-right', 'enter-left', 'enter-right', 'active');
+  next.classList.add(direction === 'right' ? 'enter-right' : 'enter-left');
+  next.offsetWidth; // Force reflow
+  next.classList.remove('enter-right', 'enter-left');
+  next.classList.add('active');
+
+  // 🎯 Play the entering video too
+  nextVideo.play();
+
+  setTimeout(() => {
+    current.classList.remove('active', 'exit-left', 'exit-right');
+    isAnimating = false;
+    index = newIndex;
+  }, 2000);
+}
+
+
+    function nextCar() {
+      const nextIndex = (index + 1) % carVideos.length;
+      switchSlide(nextIndex, 'right');
+    }
+
+    function prevCar() {
+      const nextIndex = (index - 1 + carVideos.length) % carVideos.length;
+      switchSlide(nextIndex, 'left');
+    }
+
+    window.onload = () => {
+      videoEls.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    };
+
+
+
+
+
+  </script>
+</body>
+</html>
