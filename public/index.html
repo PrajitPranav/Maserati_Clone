@@ -62,8 +62,8 @@
     }
 
     button:hover {
-      background-color: #FFD700; /* Yellow background on hover */
-      border-color: #FFD700; /* Yellow border on hover */
+      background-color: #FFD700;
+      border-color: #FFD700; 
       color: #121212;
     }
 
@@ -94,7 +94,6 @@
 <body>
 
   <div>
-    <!-- Signup Form -->
     <div id="signup-form" class="form-container">
       <h2>Signup</h2>
       <form>
@@ -105,7 +104,6 @@
       </form>
     </div>
 
-    <!-- Login Form -->
     <div id="login-form" class="form-container" style="display:none;">
       <h2>Login</h2>
       <form>
@@ -115,7 +113,6 @@
       </form>
     </div>
 
-    <!-- Toggle Buttons for Signup and Login -->
     <div class="toggle-btns">
       <button id="show-signup" onclick="toggleForm('signup')">Go to Signup</button>
       <button id="show-login" onclick="toggleForm('login')">Go to Login</button>
@@ -123,7 +120,6 @@
   </div>
 
   <script>
-    // Toggle between Signup and Login forms
     function toggleForm(formType) {
       if (formType === 'signup') {
         document.getElementById('signup-form').style.display = 'block';
@@ -138,12 +134,10 @@
       }
     }
   
-    // Show alert popup
     function showPopup(message) {
       alert(message);
     }
   
-    // Handle Signup
     document.querySelector('#signup-form form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('signup-username').value;
@@ -167,7 +161,6 @@
       }
     });
   
-    // Handle Login
     document.querySelector('#login-form form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('login-email').value;
@@ -184,13 +177,12 @@
       const data = await response.json();
       if (data.token) {
         showPopup("Login successful!");
-        window.location.href = "NEWWWHOMEEE.html"; // Navigate to new.html after login
+        window.location.href = "NEWWWHOMEEE.html"; 
       } else {
         showPopup("Login failed: " + (data.message || "Invalid credentials."));
       }
     });
   
-    // Show signup form by default
     window.onload = function() {
       toggleForm('signup');
     };
