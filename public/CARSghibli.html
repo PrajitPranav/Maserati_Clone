@@ -142,12 +142,10 @@
       const scrollPosition = scrollText.getBoundingClientRect().top;
 
       if (scrollTop > lastScrollTop) {
-        // Scrolling down
         if (scrollPosition < window.innerHeight / 2) {
           scrollText.classList.add('exit');
         }
       } else {
-        // Scrolling up
         if (scrollPosition > 0 && scrollPosition < window.innerHeight) {
           scrollText.classList.remove('exit');
         }
