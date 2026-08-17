@@ -1,2 +1,2 @@
 #Maserati
-A complete clone of official Maserati site.
+A complete clone of official Maserati.
