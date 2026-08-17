@@ -1,2 +1,2 @@
 #Maserati
-A complete clone of official Maserati.
+A complete clone of official.
